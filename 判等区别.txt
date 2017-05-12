@@ -1,0 +1,7 @@
+
+
+
+
+在JAVA 中
+
+“equals()” 是内容（值）比较，而“==”比较的是对象（object）的地址/指向（reference）
