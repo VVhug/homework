@@ -1,0 +1,63 @@
+简单的来说就是，在有指针的情况下，浅拷贝只是增加了一个指针指向已经存在的内存，而深拷贝就是增加一个指针并且申请一个新的内存，使这个增加的指针指向这个新的内存，采用深拷贝的情况下，释放内存的时候就不会出现在浅拷贝时重复释放同一内存的错误！
+我列举一个例子来说吧：
+你正在编写C++程序中有时用到，操作符的重载。最能体现深层拷贝与浅层拷贝的，就是‘=’的重载。
+看下面一个简单的程序：
+
+class string
+{
+
+     char *m_str;
+
+ public:
+
+     string(char *s）
+
+     {
+
+         m_str=s;
+    
+}
+
+     string()
+     {};
+
+String & operator=(const string s)
+
+{
+
+    m_str=s.m_str;
+
+    return *this
+}
+
+};
+
+int main()
+
+{
+
+string s1("abc"),s2;
+
+s2=s1;
+
+cout<<s2.m_str;
+
+}
+
+上面的 =重载其是就是实现了浅拷贝原因。是由于对象之中含有指针数据类型.s1,s2恰好指向同一各内存。所以是浅拷贝。而你如果修改一下原来的程序：
+string&operator=(const string&s)
+
+{
+
+     if(strlen(m_str)!=strlen(s.m_str))
+
+         m_str=new char[strlen(s.m_str)+1];
+
+     if(*this!=s)
+
+         strcopy(m_str,s.m_str);
+    
+return *this;
+
+}
+这样你就实现了深拷贝，原因是你为被赋值对象申请了一个新的内存所以就是深拷贝。
